@@ -6,6 +6,7 @@ router.post('/google-login', UserController.googleLogin)
 router.use(isLogin)
 router.get('/weather', WeatherController.getWeather)
 router.get('/news', NewsController.getNews)
+router.get('/news/:keyword', NewsController.searchNews)
 router.get('/youtube/:title', YoutubeController.getVideos)
 
 module.exports = router
