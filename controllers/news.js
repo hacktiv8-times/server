@@ -11,6 +11,17 @@ class NewsController {
                 res.status(500).json(err)
             })
     }
+
+    static searchNews (req, res) {
+        axios
+            .get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${req.body.q}&api-key=${process.env.NEWS_API_KEY}`)
+            .then(({ response }) => {
+                res.status(200).json(response.docs)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+    }
 }
 
 module.exports = NewsController

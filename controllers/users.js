@@ -1,5 +1,5 @@
 const { User } = require('../models')
-const { bcrypt, jwt } = require('../helpers')
+const { jwt } = require('../helpers')
 const { OAuth2Client } = require('google-auth-library')
 const CLIENT_ID = "394233952968-u2cmasf883te32foqnlt39h2ie625rm1.apps.googleusercontent.com"
 const client = new OAuth2Client(CLIENT_ID)
@@ -19,10 +19,9 @@ class UserController {
                     .findOne({
                         email: payload.email
                     })
-
             })
-            .then(user => {
-                if (!user) {
+            .then(foundUser => {
+                if (!foundUser) {
                     return User
                         .create({
                             name: payload.name,
@@ -31,7 +30,7 @@ class UserController {
                             profilePicture: payload.picture
                         })
                 } else {
-                    return user
+                    return foundUser
                 }
             })
             .then(user => {
@@ -47,7 +46,7 @@ class UserController {
 
             })
             .catch(err => {
-                errors = {}
+                let errors = {}
 
                 if (err.errors.name) {
                     errors.title = err.errors.title.message
